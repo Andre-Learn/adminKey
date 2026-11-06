@@ -126,7 +126,7 @@ export const adminApi = {
   remove: (id: string) => admin<{ id: string }>('DELETE', '/api/admin/licenses/delete', { query: { id } }),
   devices: (q: { page: number; page_size: number; license_id?: string }) =>
     admin<DeviceListResponse>('GET', '/api/admin/devices', { query: q }),
-  removeDevice: (id: string) => admin<{ id: string }>('POST', '/api/admin/devices/remove', { body: { id } }),
+  removeDevice: (id: string) => admin<{ id: string }>('DELETE', '/api/admin/devices', { query: { id } }),
   logs: (q: { page: number; page_size: number; action?: LogAction | '' }) =>
     admin<LogListResponse>('GET', '/api/admin/logs', { query: q }),
 };

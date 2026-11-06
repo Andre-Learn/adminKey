@@ -19,7 +19,7 @@ epen/
 │  └─ admin/                    endpoint admin (wajib login admin)
 │     ├─ me.ts  stats.ts  logs.ts
 │     ├─ licenses/ index.ts generate.ts extend.ts revoke.ts delete.ts
-│     └─ devices/  index.ts remove.ts
+│     └─ devices.ts            (GET daftar, DELETE hapus perangkat)
 ├─ src/                         Frontend
 │  ├─ components/  pages/  layouts/  hooks/  lib/  types/
 ├─ supabase/
@@ -165,6 +165,8 @@ Kode error: `VALIDATION_ERROR` 400 · `INVALID_JSON` 400 · `UNAUTHORIZED` 401 �
 Software desktop/mobile cukup memanggil `activate` sekali dengan `device_id` stabil milik aplikasi (mis. UUID yang disimpan, atau hash hardware id), simpan `session_token`, lalu panggil `verify` berkala dan saat startup. Jangan pernah menganggap lisensi valid hanya karena data lokal; selalu ikuti respons server.
 
 ## 11. Catatan & pemeliharaan
+
+- **Batas plan Hobby Vercel = 12 Serverless Functions.** Proyek ini memakai tepat 12 file di `api/` (folder `_lib` tidak dihitung). Jika menambah endpoint baru, gabungkan ke file yang ada (pola: satu file menangani beberapa method, lihat `api/admin/devices.ts`) atau upgrade ke Pro.
 
 - **Status expired** diperbarui otomatis saat `activate`/`verify` dan saat admin membuka daftar/dashboard. Opsional, jadwalkan dengan pg_cron: `select cron.schedule('expire-licenses','* * * * *','select public.expire_overdue_licenses()');`
 - **Retensi log:** `license_logs` append-only. Untuk membersihkan log lama, nonaktifkan trigger sementara di SQL Editor (`alter table public.license_logs disable trigger license_logs_append_only;`), hapus, lalu aktifkan lagi.
